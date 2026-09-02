@@ -1,0 +1,6 @@
+{
+  "name": "PhishGuard - Free Offline ML Phishing URL Detector",
+  "description": "100% free and open-source phishing URL detection system using local machine learning, static feature extraction, and SQLite with zero paid APIs.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

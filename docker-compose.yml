@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # Python FastAPI ML Backend Service (Zero Paid APIs, Local SQLite)
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: phishguard-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./data:/app/data
+      - ./ml/dataset:/app/ml/dataset
+    restart: unless-stopped
+
+  # React + Vite Frontend (Free Static / Local Dev)
+  frontend:
+    image: node:20-alpine
+    container_name: phishguard-frontend
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      - backend
+    restart: unless-stopped
