@@ -277,7 +277,7 @@ export const BackendDocs: React.FC = () => {
               Method 1: Local Python &amp; Virtualenv
             </h3>
             <button
-              onClick={() => copyText('venv_cmd', 'python -m venv venv && source venv/bin/activate && pip install -r requirements.txt && python ml/train.py && uvicorn app.main:app --reload')}
+              onClick={() => copyText('venv_cmd', 'python -m venv venv && source venv/bin/activate && pip install -r app/requirements.txt && python ml/train.py && uvicorn app.main:app --reload')}
               className="text-xs text-[#9CA3AF] hover:text-white flex items-center gap-1 font-mono"
             >
               {copiedKey === 'venv_cmd' ? <Check className="w-3.5 h-3.5 text-[#10B981]" /> : <Copy className="w-3.5 h-3.5" />}
@@ -289,7 +289,7 @@ export const BackendDocs: React.FC = () => {
             <div>python -m venv venv</div>
             <div>source venv/bin/activate  <span className="text-[#6B7280]"># or venv\Scripts\activate on Windows</span></div>
             <div className="pt-1"><span className="text-[#3B82F6]"># 2. Install free requirements</span></div>
-            <div>pip install -r requirements.txt</div>
+            <div>pip install -r app/requirements.txt</div>
             <div className="pt-1"><span className="text-[#3B82F6]"># 3. Launch FastAPI backend</span></div>
             <div>uvicorn app.main:app --reload --port 8000</div>
           </div>

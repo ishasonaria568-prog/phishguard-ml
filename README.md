@@ -132,7 +132,7 @@ source venv/bin/activate
 # venv\Scripts\activate
 
 # 3. Install dependencies
-pip install -r requirements.txt
+pip install -r app/requirements.txt
 
 # 4. (Optional) Retrain the local ML model
 python ml/train.py
