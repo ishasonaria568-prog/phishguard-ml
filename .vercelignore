@@ -1,0 +1,8 @@
+# Ignore Python backend files from Vercel deployment so Vercel builds purely as a React/Vite frontend
+requirements.txt
+app/
+app/**
+ml/
+ml/**
+Dockerfile
+docker-compose.yml
