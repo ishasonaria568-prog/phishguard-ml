@@ -67,33 +67,83 @@ External APIs: Not required
 
 ---
 
-## 💻 Free Local Development Setup
+## 🚀 Deployment & Architecture Modes
 
-### 1. Clone & Setup Python Backend
+PhishGuard supports two operating modes:
+
+```text
+                 PHISHGUARD
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+       VERCEL               LOCAL / Docker
+          │                     │
+    React + Vite          React + FastAPI
+    Browser-side ML       Python ML (scikit-learn)
+    localStorage          SQLite Database
+          │                     │
+          └──────────┬──────────┘
+                     │
+              Same PhishGuard
+               core experience
+```
+
+---
+
+# Deploy to Vercel
+
+The Vercel deployment builds the **React + Vite frontend** with in-browser static feature extraction and ML decision heuristics.
+
+> **Note**: The Vercel deployment performs 100% of URL analysis directly in the browser and does not require a Python backend, SQLite, or server-side API keys.
+
+### Steps to Deploy to Vercel:
+
+1. Push this project to GitHub
+2. Import the repository into **Vercel** (`https://vercel.com/new`)
+3. Select **Vite** as the framework preset
+4. Build command:
+   ```bash
+   npm run build
+   ```
+5. Output directory:
+   ```text
+   dist
+   ```
+6. Click **Deploy**
+
+The deployed site is 100% free, fast, fully functional, and stores scan histories locally in browser `localStorage`.
+
+---
+
+# Run Full Backend Locally
+
+To run the complete full-stack environment with FastAPI, Python scikit-learn model, and SQLite:
+
+### 1. Python & FastAPI Backend Setup
 
 ```bash
-# Create Python virtual environment
+# 1. Create Python virtual environment
 python -m venv venv
 
-# Activate virtual environment
+# 2. Activate virtual environment
 # On Linux/macOS:
 source venv/bin/activate
 # On Windows:
 # venv\Scripts\activate
 
-# Install free dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# (Optional) Retrain the local ML model
+# 4. (Optional) Retrain the local ML model
 python ml/train.py
 
-# Launch FastAPI backend
+# 5. Launch FastAPI backend
 uvicorn app.main:app --reload --port 8000
 ```
 
 FastAPI Swagger documentation will be available at `http://localhost:8000/docs`.
 
-### 2. Setup Frontend
+### 2. Frontend Setup
 
 ```bash
 # Install node packages
@@ -107,12 +157,12 @@ Visit `http://localhost:3000` to access the PhishGuard dashboard.
 
 ---
 
-## 🐳 Running with Docker Compose
+# Run with Docker & Docker Compose
 
-Run the entire stack locally with zero configuration:
+Run the entire stack (FastAPI + React) locally with a single command:
 
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 
 - **Frontend**: `http://localhost:3000`

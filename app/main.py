@@ -13,11 +13,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from app.features import extract_features, FEATURE_COLUMNS if hasattr(__import__('app.features'), 'FEATURE_COLUMNS') else [
-    "url_length", "domain_length", "num_subdomains", "num_dots", "num_hyphens",
-    "num_digits", "num_special_chars", "has_at_symbol", "is_ip_address", "is_https",
-    "suspicious_keyword_count", "domain_entropy", "is_shortener", "query_param_count", "path_length"
-]
+from app.features import extract_features, FEATURE_COLUMNS
 from app.database import save_scan_result, get_scan_history, get_scan_summary, clear_history_db
 
 app = FastAPI(

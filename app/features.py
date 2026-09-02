@@ -33,6 +33,12 @@ IP_REGEX = re.compile(
     r"^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
 )
 
+FEATURE_COLUMNS = [
+    "url_length", "domain_length", "num_subdomains", "num_dots", "num_hyphens",
+    "num_digits", "num_special_chars", "has_at_symbol", "is_ip_address", "is_https",
+    "suspicious_keyword_count", "domain_entropy", "is_shortener", "query_param_count", "path_length"
+]
+
 
 def calculate_entropy(text: str) -> float:
     """Calculates Shannon Entropy of a string."""

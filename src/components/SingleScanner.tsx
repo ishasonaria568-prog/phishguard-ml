@@ -58,25 +58,76 @@ export const SingleScanner: React.FC<SingleScannerProps> = ({
     }
   }, [latestScan]);
 
-  const validateUrl = (url: string): boolean => {
+  const validateUrl = (url: string): { valid: boolean; error?: string } => {
     const trimmed = url.trim();
-    if (!trimmed) return false;
-    // Check if it has basic URL structure (either scheme or valid domain-like syntax)
-    if (trimmed.length < 3) return false;
-    return true;
+    if (!trimmed) {
+      return { 
+        valid: false, 
+        error: "Please enter a web address to check (e.g. https://example.com)." 
+      };
+    }
+    if (trimmed.length > 2048) {
+      return { 
+        valid: false, 
+        error: "The URL exceeds the maximum allowed length (2048 characters)." 
+      };
+    }
+    // Reject strings with internal spaces
+    if (/\s/.test(trimmed)) {
+      return {
+        valid: false,
+        error: "That doesn't look like a valid URL. Try something like: https://example.com"
+      };
+    }
+
+    let toParse = trimmed;
+    if (!/^https?:\/\//i.test(toParse)) {
+      toParse = 'http://' + toParse;
+    }
+
+    try {
+      const parsed = new URL(toParse);
+      const host = parsed.hostname;
+      if (!host) {
+        return {
+          valid: false,
+          error: "That doesn't look like a valid URL. Try something like: https://example.com"
+        };
+      }
+      const isIp = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(host);
+      const isLocalhost = host === 'localhost';
+      const hasDot = host.includes('.');
+
+      if (!isIp && !isLocalhost && !hasDot) {
+        return {
+          valid: false,
+          error: "That doesn't look like a valid URL. Try something like: https://example.com"
+        };
+      }
+
+      if (host.startsWith('.') || host.endsWith('.')) {
+        return {
+          valid: false,
+          error: "That doesn't look like a valid URL. Try something like: https://example.com"
+        };
+      }
+
+      return { valid: true };
+    } catch {
+      return {
+        valid: false,
+        error: "That doesn't look like a valid URL. Try something like: https://example.com"
+      };
+    }
   };
 
   const handleScan = (targetUrl?: string) => {
     const toScan = (targetUrl !== undefined ? targetUrl : inputUrl).trim();
     setErrorMessage(null);
 
-    if (!toScan) {
-      setErrorMessage("Please enter a web address to check (e.g. https://example.com).");
-      return;
-    }
-
-    if (!validateUrl(toScan)) {
-      setErrorMessage("⚠ That doesn't look like a valid URL. Please enter a complete URL such as: https://example.com");
+    const validation = validateUrl(toScan);
+    if (!validation.valid) {
+      setErrorMessage(validation.error || "That doesn't look like a valid URL. Try something like: https://example.com");
       return;
     }
 
