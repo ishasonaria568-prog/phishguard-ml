@@ -104,7 +104,7 @@ The Vercel deployment builds the **React + Vite frontend** with in-browser stati
 4. Build command:
    ```bash
    npm run build
-   ```
+  
 5. Output directory:
    ```text
    dist
@@ -174,3 +174,6 @@ docker compose up --build
 ## 📜 License & Freedom
 
 This project is licensed under the **MIT License**. It is completely free to modify, distribute, and self-host for personal, academic, or commercial security research.
+
+
+The Passphares is : 223389@abc
